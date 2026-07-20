@@ -7,7 +7,12 @@ DRAW_MIN = 0.05             # lowest possible draw probability, for very mismatc
 DRAW_SENSITIVITY = 0.0015   # how fast draw probability shrinks as rating gap grows
 
 def estimate_draw_probability(rating_diff: float) -> float:
-    pass
+    rating_diff = abs(rating_diff)
+
+    draw_prob = DRAW_MAX - DRAW_SENSITIVITY * rating_diff
+
+    results = max(DRAW_MIN, min(DRAW_MAX, draw_prob))
+    return results
 
 def predict_match(rating_home: float, rating_away: float,
                   is_neutral: bool) -> dict[str, float]:

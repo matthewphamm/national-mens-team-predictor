@@ -2,8 +2,9 @@ import pandas as pd
 from data_prep import load_data
 
 DATA_PATH = 'data/results.csv'
-STARTING_RATING = 1500 # can be changed
+STARTING_RATING = 1500 
 K_FACTOR = 20 # can be changed
+HOME_ADVANTAGE = 100 # can be changed
 
 def expected_score(rating_a: float, rating_b: float) -> float:
     """
@@ -29,11 +30,17 @@ def actual_score(home_score: int, away_score: int) -> float:
 
 def update_ratings(rating_home: float, rating_away: float,
                    home_score: int, away_score: int, 
+                   is_neutral: bool,
                     k: float = K_FACTOR) -> tuple[float, float]:
     """
     Return the new (rating_home, rating_away) after applying the Elo update.
     """
-    expected_home = expected_score(rating_home, rating_away)
+    if is_neutral is True:
+        effective_rating_home = rating_home
+    else:
+        effective_rating_home = rating_home + HOME_ADVANTAGE
+    
+    expected_home = expected_score(effective_rating_home, rating_away)
     expected_away = 1.0 - expected_home
 
     actual_home = actual_score(home_score, away_score)

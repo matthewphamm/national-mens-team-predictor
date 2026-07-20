@@ -1,5 +1,5 @@
 from elo import expected_score, build_ratings, HOME_ADVANTAGE
-from data_prep import load_data
+from data_prep import load_data, DATA_PATH
 
 # Tunable constants for draw probability 
 DRAW_MAX = 0.34             # highest possible draw probability, for two evenly matched teams
@@ -37,3 +37,25 @@ def predict_match(rating_home: float, rating_away: float,
     }
 
     return results
+
+if __name__ == "__main__":
+
+    df = load_data(DATA_PATH)
+    ratings = build_ratings(df)
+
+    team_a = "Argentina"
+    team_b = "Spain"
+
+    rating_a = ratings.get(team_a)
+    rating_b = ratings.get(team_b)
+
+    print(f"{team_a} rating: {rating_a:.1f}")
+    print(f"{team_b} rating: {rating_b:.1f}")
+
+    # Simulate a neutral-venue matchup (e.g. a World Cup game)
+    result = predict_match(rating_a, rating_b, is_neutral=True)
+
+    print(f"\n{team_a} vs {team_b} (neutral venue):")
+    print(f"  {team_a} win: {result['Home_win']:.1%}")
+    print(f"  Draw:          {result['Draw']:.1%}")
+    print(f"  {team_b} win: {result['Away_win']:.1%}")

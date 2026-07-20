@@ -2,7 +2,7 @@ import pandas as pd
 from data_prep import load_data
 
 DATA_PATH = 'data/results.csv'
-STARTING_RATE = 1500 # can be changed
+STARTING_RATING = 1500 # can be changed
 K_FACTOR = 20 # can be changed
 
 def expected_score(rating_a: float, rating_b: float) -> float:
@@ -35,7 +35,7 @@ def update_ratings(rating_home: float, rating_away: float,
     """
     expected_home = expected_score(rating_home, rating_away)
     expected_away = 1.0 - expected_home
-    
+
     actual_home = actual_score(home_score, away_score)
     actual_away = 1.0 - actual_home
     
@@ -55,12 +55,12 @@ def build_ratings(df: pd.DataFrame) -> dict[str, float]:
         away_score = row.away_score
 
         if home_team not in ratings:
-            rating_home = ratings.get(home_team, STARTING_RATE)
+            rating_home = ratings.get(home_team, STARTING_RATING)
         else:
             rating_home = ratings.get(home_team) 
         
         if away_team not in ratings:
-            rating_away = ratings.get(away_team, STARTING_RATE) 
+            rating_away = ratings.get(away_team, STARTING_RATING) 
         else:
             rating_away = ratings.get(away_team) 
         
@@ -70,3 +70,16 @@ def build_ratings(df: pd.DataFrame) -> dict[str, float]:
         ratings[away_team] = new_rating_away
 
     return ratings
+
+if __name__ == "__main__":
+    df = load_data(DATA_PATH)
+    ratings = build_ratings(df)
+
+    # Check: top and bottom 10 teams by rating
+    sorted_teams = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
+    print("Top 10:")
+    for team, rating in sorted_teams[:10]:
+        print(f"  {team}: {rating:.1f}")
+    print("Bottom 10:")
+    for team, rating in sorted_teams[-10:]:
+        print(f"  {team}: {rating:.1f}")

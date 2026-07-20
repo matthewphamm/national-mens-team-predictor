@@ -39,6 +39,7 @@ def predict_match(rating_home: float, rating_away: float,
     return results
 
 if __name__ == "__main__":
+    # Implement a user interface where it asks the user what two teams
 
     df = load_data(DATA_PATH)
     ratings = build_ratings(df)

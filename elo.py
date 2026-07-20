@@ -5,8 +5,12 @@ DATA_PATH = 'data/results.csv'
 STARTING_RATE = 1500 # can be changed
 K_FACTOR = 20 # can be changed
 
-def expected_score(rating_a: float, rating_b: float) -> float: # type: ignore
-    pass
+def expected_score(rating_a: float, rating_b: float) -> float:
+    """
+    Return team A's probability of winning, given both Elo ratings.
+    """
+    results = 1 / (1 + 10 ** ((rating_b - rating_a) / 400))
+    return results
 
 def actual_score(home_score: int, away_score: int) -> float: # type: ignore
     pass

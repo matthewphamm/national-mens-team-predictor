@@ -16,4 +16,24 @@ def estimate_draw_probability(rating_diff: float) -> float:
 
 def predict_match(rating_home: float, rating_away: float,
                   is_neutral: bool) -> dict[str, float]:
-    pass
+    if is_neutral is True:
+        effective_rating_home = rating_home
+    else:
+        effective_rating_home = rating_home + HOME_ADVANTAGE
+    
+    expected_home = expected_score(effective_rating_home, rating_away)
+
+    rating_diff = effective_rating_home - rating_away
+
+    draw_prob = estimate_draw_probability(rating_diff)
+
+    prob_home_win = expected_home - 0.5 * draw_prob
+    prob_away_win = 1 - prob_home_win - draw_prob
+    
+    results = {
+        "Home_win": prob_home_win,
+        "Draw": draw_prob,
+        "Away_win": prob_away_win
+    }
+
+    return results

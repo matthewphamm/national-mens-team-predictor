@@ -1,6 +1,6 @@
 import pandas as pd
-from sklearn.linear_model import PoissonRegressor 
-from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import PoissonRegressor #type: ignore
+from sklearn.preprocessing import StandardScaler #type: ignore
 from data_prep import load_data, DATA_PATH
 from train_data import build_training_df
 

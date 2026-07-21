@@ -44,19 +44,27 @@ if __name__ == "__main__":
     df = load_data(DATA_PATH)
     ratings = build_ratings(df)
 
-    team_a = "Argentina"
-    team_b = "Spain"
+    while True:
+        team_a = input("Enter a National Team: ")
+        team_b = input("Enter a Different National Team: ")
 
-    rating_a = ratings.get(team_a)
-    rating_b = ratings.get(team_b)
+        if not (team_a and team_b):
+            print("Please Enter Valid Teams.")
+        else:
+            formatted_input_a = team_a[0].upper() + team_a[1:].lower()
+            formatted_input_b = team_b[0].upper() + team_b[1:].lower()
+            break
 
-    print(f"{team_a} rating: {rating_a:.1f}")
-    print(f"{team_b} rating: {rating_b:.1f}")
+    rating_a = ratings.get(formatted_input_a)
+    rating_b = ratings.get(formatted_input_b)
+
+    print(f"{formatted_input_a} rating: {rating_a:.1f}")
+    print(f"{formatted_input_b} rating: {rating_b:.1f}")
 
     # Simulate a neutral-venue matchup (e.g. a World Cup game)
     result = predict_match(rating_a, rating_b, is_neutral=True)
 
-    print(f"\n{team_a} vs {team_b} (neutral venue):")
-    print(f"  {team_a} win: {result['Home_win']:.1%}")
+    print(f"\n{formatted_input_a} vs {formatted_input_b} (neutral venue):")
+    print(f"  {formatted_input_a} win: {result['Home_win']:.1%}")
     print(f"  Draw:          {result['Draw']:.1%}")
-    print(f"  {team_b} win: {result['Away_win']:.1%}")
+    print(f"  {formatted_input_b} win: {result['Away_win']:.1%}")

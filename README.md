@@ -29,3 +29,22 @@ Two prediction methods were built and compared: a lightweight Elo-based heuristi
 **Monte Carlo simulation** — for a given matchup, 10,000 independent scorelines are sampled from `Poisson(λ_home)` and `Poisson(λ_away)`, and outcome probabilities are computed from the resulting win/draw/loss tally.
  
 **Validation** — both methods were tested with a walk-forward backtest: for every match in the test, predictions were made using only data available before that match's date, then updated with the real result — avoiding lookahead bias.
+
+## Project Structure
+
+## Setup
+ 
+```bash
+python3 -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+ 
+## Usage
+ 
+```bash
+python predict.py               # single-match prediction, Elo heuristic
+python simulate.py              # single-match prediction, Poisson + Monte Carlo
+python backtest.py              # run the Elo walk-forward backtest
+python backtest_poisson.py      # run the Poisson train/test backtest
+```

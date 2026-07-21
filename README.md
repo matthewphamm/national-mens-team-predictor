@@ -66,3 +66,5 @@ python3 -m poisson_src.simulate        # single-match prediction, Poisson + Mont
 python3 -m tests.backtest              # run the Elo walk-forward backtest
 python3 -m tests.backtest_poisson      # run the Poisson train/test backtest
 ```
+## Data Source
+[^1]: Mart Jürisoo. (2026). *International football results from 1872 to 2026* [Data set]. Kaggle. https://www.kaggle.com/datasets/martj42/international-football-results-from-1872-to-2017

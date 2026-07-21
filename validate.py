@@ -14,3 +14,34 @@ TEST_MATCHES = [
     ("England", "Netherlands", "home_win", True),      # Euro 2024 Semifinal (2-1)
     ("Argentina", "Colombia", "home_win", True),       # Copa America 2024 Final (1-0)
 ]
+
+def run_validation(ratings: dict[str, float], matches: list[tuple]) -> None:
+    correct = 0
+    total = len(matches)
+
+    for home, away, actual_result, is_neutral in matches:
+        rating_home = ratings.get(home)
+        rating_away = ratings.get(away)
+
+        result = predict_match(rating_home, rating_away, is_neutral)
+
+        predicted_result = max(result, key=result.get)
+        is_correct = predicted_result == actual_result
+        if is_correct:
+            correct += 1
+
+        print(f"{home} vs {away}")
+        print(f"  Home win: {result['home_win']:.1%}  "
+              f"Draw: {result['draw']:.1%}  "
+              f"Away win: {result['away_win']:.1%}")
+        print(f"  Actual: {actual_result}  |  "
+              f"Predicted top pick: {predicted_result}  |  "    
+              f"{'✓' if is_correct else '✗'}")
+        print()
+
+    print(f"Top-pick accuracy: {correct}/{total} ({correct/total:.1%})")
+
+if __name__ == "__main__":
+    df = load_data(DATA_PATH)
+    ratings = build_ratings(df)
+    run_validation(ratings, TEST_MATCHES)

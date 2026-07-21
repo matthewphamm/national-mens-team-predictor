@@ -1,13 +1,12 @@
 import numpy as np
 import pandas as pd
-from data_prep import load_data
+from data_prep import load_data,DATA_PATH
 from train_data import build_training_df
 from train_model import train_goal_models
 from simulate import simulate_match
 
-DATA_PATH = "data/results.csv"
-CUTOFF_DATE = "2015-01-01"
-N_SIMULATIONS = 1000  # lower than 10,000 for backtest speed 
+CUTOFF_DATE = "2010-01-01"
+N_SIMULATIONS = 1000 
 
 
 def get_actual_result(home_goals: int, away_goals: int) -> str:

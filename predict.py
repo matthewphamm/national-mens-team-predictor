@@ -31,9 +31,9 @@ def predict_match(rating_home: float, rating_away: float,
     prob_away_win = 1 - prob_home_win - draw_prob
     
     results = {
-        "Home_win": prob_home_win,
-        "Draw": draw_prob,
-        "Away_win": prob_away_win
+        "home_win": prob_home_win,
+        "draw": draw_prob,
+        "away_win": prob_away_win
     }
 
     return results
@@ -61,6 +61,6 @@ if __name__ == "__main__":
     result = predict_match(rating_a, rating_b, is_neutral)
 
     print(f"\n{team_a} vs {team_b} (Neutral Venue: {is_neutral}):")
-    print(f"  {team_a} win: {result['Home_win']:.1%}")
-    print(f"  Draw:          {result['Draw']:.1%}")
-    print(f"  {team_b} win: {result['Away_win']:.1%}")
+    print(f"  {team_a} Win: {result['home_win']:.1%}")
+    print(f"  Draw:          {result['draw']:.1%}")
+    print(f"  {team_b} Win: {result['away_win']:.1%}")

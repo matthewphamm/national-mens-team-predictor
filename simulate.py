@@ -25,7 +25,24 @@ def get_expected_goals(rating_home: float, rating_away: float, is_home: int,
 
 def simulate_match(lambda_home: float, lambda_away: float,
                    n_simulations: int = N_SIMULATIONS) -> dict[str, float]:
-    pass
+    simulated_home = np.random.poisson(lambda_home, size=n_simulations)
+    simulated_away = np.random.poisson(lambda_away, size=n_simulations)
+
+    home_wins = (simulated_home > simulated_away).sum()
+    draws     = (simulated_home == simulated_away).sum()
+    away_wins = (simulated_home < simulated_away).sum()
+
+    home_wins_prob = home_wins / n_simulations
+    draws_prob     = draws / n_simulations
+    away_wins_prob = away_wins / n_simulations
+
+    results = {
+        "home_win": home_wins_prob,
+        "draw": draws_prob,
+        "away_win": away_wins_prob
+    }
+
+    return results
 
 if __name__ == "__main__":
 
@@ -36,7 +53,7 @@ if __name__ == "__main__":
     home_model, away_model, scaler = train_goal_models(training_df)
 
     team_a = "Argentina"
-    team_b = "Canada"
+    team_b = "France"
     rating_a = ratings.get(team_a, STARTING_RATING)
     rating_b = ratings.get(team_b, STARTING_RATING)
 
@@ -46,3 +63,10 @@ if __name__ == "__main__":
     )
 
     print(f"Expected goals: {team_a}: {lambda_home:.2f}, {team_b}: {lambda_away:.2f}")
+
+    result = simulate_match(lambda_home, lambda_away)
+
+    print(f"\n{team_a} vs {team_b} (Monte Carlo, {N_SIMULATIONS:,} simulations):")
+    print(f"  {team_a} win: {result['home_win']:.1%}")
+    print(f"  Draw:          {result['draw']:.1%}")
+    print(f"  {team_b} win: {result['away_win']:.1%}")

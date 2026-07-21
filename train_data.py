@@ -18,6 +18,7 @@ def build_training_df(df: pd.DataFrame) -> pd.DataFrame:
             is_home = 1
 
         rows.append({
+            "date": row.date,
             "rating_diff": rating_diff,
             "is_home": is_home,
             "home_goals": row.home_score,

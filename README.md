@@ -68,3 +68,11 @@ python3 -m tests.backtest_poisson      # run the Poisson train/test backtest
 ```
 ## Data Source
 Mart Jürisoo. (2026). *International football results from 1872 to 2026* [Data set]. Kaggle. https://www.kaggle.com/datasets/martj42/international-football-results-from-1872-to-2017
+
+## What I learned
+ 
+- Implementing a rating system (Elo) from first principles, including how its update rule mirrors gradient-based learning
+- Building a walk-forward backtest to avoid lookahead bias, and why it matters for any time-series prediction task
+- Feature scaling and its effect on regularized model convergence (diagnosed and fixed a real `PoissonRegressor` convergence failure caused by unscaled features)
+- Vectorized Monte Carlo simulation with NumPy
+- That added model complexity isn't automatically added accuracy — a documented, evidence-based finding from this project's own results
